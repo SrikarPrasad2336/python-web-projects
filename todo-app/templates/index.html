@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111827">
+    <title>TaskFlow | To-Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+    <main class="app-container">
+        <header class="header">
+            <div>
+                <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+                <h1>Task<span>Flow.</span></h1>
+                <p class="subtitle">Small steps. Meaningful progress.</p>
+            </div>
+            <div class="date-badge" id="today"></div>
+        </header>
+
+        <section class="stats">
+            <article class="stat-card">
+                <span>Total tasks</span>
+                <strong id="total-count">0</strong>
+            </article>
+            <article class="stat-card">
+                <span>Pending</span>
+                <strong id="pending-count">0</strong>
+            </article>
+            <article class="stat-card">
+                <span>Completed</span>
+                <strong id="completed-count">0</strong>
+            </article>
+        </section>
+
+        <section class="task-panel">
+            <div class="section-heading">
+                <div>
+                    <h2>My tasks</h2>
+                    <p>What would you like to accomplish?</p>
+                </div>
+            </div>
+
+            <form id="task-form" class="task-form">
+                <input
+                    id="task-input"
+                    type="text"
+                    maxlength="200"
+                    placeholder="e.g. Complete my Python project"
+                    aria-label="New task"
+                    required
+                >
+                <button type="submit" class="primary-button">+ Add task</button>
+            </form>
+
+            <p id="message" class="message" role="status" aria-live="polite"></p>
+
+            <nav class="filters" aria-label="Filter tasks">
+                <button type="button" class="filter active" data-filter="all">
+                    All
+                </button>
+                <button type="button" class="filter" data-filter="pending">
+                    Pending
+                </button>
+                <button type="button" class="filter" data-filter="completed">
+                    Completed
+                </button>
+            </nav>
+
+            <ul id="task-list" class="task-list"></ul>
+
+            <div id="empty-state" class="empty-state" hidden>
+                <div class="empty-icon">✓</div>
+                <h3 id="empty-title">A fresh start!</h3>
+                <p id="empty-description">Add your first task to get started.</p>
+            </div>
+
+            <footer class="panel-footer">
+                <span id="footer-count">0 tasks</span>
+                <span>Saved automatically</span>
+            </footer>
+        </section>
+
+        <footer class="app-footer">
+            Built for focus, one task at a time.
+        </footer>
+    </main>
+</body>
+</html>
