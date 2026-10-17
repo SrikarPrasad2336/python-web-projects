@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Currency Converter</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+  <main class="converter">
+    <h1>Live Currency Converter</h1>
+    <p>Traditional currencies and supported cryptocurrencies</p>
+
+    <label for="amount">Amount</label>
+    <input id="amount" type="number" min="0.00000001" step="any"
+           value="1000" required>
+
+    <label for="fromCurrency">From</label>
+    <select id="fromCurrency" required></select>
+
+    <button id="swapButton" type="button" aria-label="Swap currencies">⇄ Swap</button>
+
+    <label for="toCurrency">To</label>
+    <select id="toCurrency" required></select>
+
+    <button id="convertButton" type="button">Convert now</button>
+
+    <p id="status" role="status">Loading supported currencies…</p>
+
+    <section id="resultPanel" hidden>
+      <h2 id="resultAmount"></h2>
+      <p id="rateText"></p>
+      <p id="timestampText"></p>
+      <p id="sourceText"></p>
+    </section>
+
+    <p id="errorMessage" role="alert"></p>
+    <p id="refreshText">Automatic refresh: waiting for initial quote.</p>
+    <p class="disclaimer">
+      Quotes depend on provider coverage, market availability, and your API plan.
+      This tool is for informational use.
+    </p>
+  </main>
+</body>
+</html>
