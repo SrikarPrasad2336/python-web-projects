@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1020">
+    <title>Expense Tracker | Finance Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a class="brand" href="/">
+                <span class="brand-icon">₹</span>
+                <span>FinTrack<span class="brand-dot">.</span></span>
+            </a>
+
+            <p class="nav-label">WORKSPACE</p>
+            <nav class="navigation">
+                <a href="#dashboard" class="nav-item active">
+                    <span>▦</span> Dashboard
+                </a>
+                <a href="#transactions" class="nav-item">
+                    <span>⇄</span> Transactions
+                </a>
+                <a href="#analytics" class="nav-item">
+                    <span>◔</span> Analytics
+                </a>
+                <a href="#add-transaction" class="nav-item">
+                    <span>＋</span> Add transaction
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="security-icon">✓</div>
+                <div>
+                    <strong>Private & local</strong>
+                    <p>Your records are stored in SQLite.</p>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content" id="dashboard">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">PERSONAL FINANCE</p>
+                    <h1>Dashboard</h1>
+                    <p class="subtitle">Understand your money. Make smarter decisions.</p>
+                </div>
+                <button class="primary-button" id="addTransactionButton">
+                    <span>＋</span> Add transaction
+                </button>
+            </header>
+
+            <section class="welcome-strip">
+                <div>
+                    <p class="eyebrow">YOUR FINANCIAL OVERVIEW</p>
+                    <h2>Take control of your finances.</h2>
+                    <p>Track your income, monitor spending, and stay on budget.</p>
+                </div>
+                <div class="welcome-art" aria-hidden="true">
+                    <span class="art-circle circle-one"></span>
+                    <span class="art-circle circle-two"></span>
+                    <span class="art-rupee">₹</span>
+                </div>
+            </section>
+
+            <section class="summary-grid" aria-label="Financial summary">
+                <article class="summary-card balance-card">
+                    <div class="card-heading">
+                        <span>Total balance</span>
+                        <span class="metric-icon">₹</span>
+                    </div>
+                    <h2 id="totalBalance">₹0.00</h2>
+                    <p class="metric-caption">Income minus expenses</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="card-heading">
+                        <span>Total income</span>
+                        <span class="metric-icon income-icon">↙</span>
+                    </div>
+                    <h2 id="totalIncome">₹0.00</h2>
+                    <p class="metric-caption">All recorded income</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="card-heading">
+                        <span>Total expenses</span>
+                        <span class="metric-icon expense-icon">↗</span>
+                    </div>
+                    <h2 id="totalExpenses">₹0.00</h2>
+                    <p class="metric-caption">All recorded spending</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="card-heading">
+                        <span>Transactions</span>
+                        <span class="metric-icon count-icon">#</span>
+                    </div>
+                    <h2 id="transactionCount">0</h2>
+                    <p class="metric-caption">Records in your tracker</p>
+                </article>
+            </section>
+
+            <section class="content-grid" id="analytics">
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Income vs expenses</h3>
+                            <p>Your overall cash flow</p>
+                        </div>
+                        <span class="panel-badge">Overview</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="cashFlowChart"></canvas>
+                        <div class="chart-empty" id="cashFlowEmpty">
+                            <span>▥</span>
+                            <strong>Your cash flow will appear here</strong>
+                            <p>Add income and expenses to see your chart.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Spending by category</h3>
+                            <p>Where your money goes</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                        <div class="chart-empty" id="categoryEmpty">
+                            <span>◔</span>
+                            <strong>No spending data yet</strong>
+                            <p>Your category breakdown will appear here.</p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="panel transaction-panel" id="transactions">
+                <div class="panel-heading transaction-heading">
+                    <div>
+                        <h3>Recent transactions</h3>
+                        <p>Review and manage your financial activity</p>
+                    </div>
+                    <button class="text-button" id="viewAllButton">View all ↓</button>
+                </div>
+
+                <div class="filter-bar">
+                    <input type="search" id="searchInput"
+                           placeholder="Search transactions..." aria-label="Search transactions">
+
+                    <select id="typeFilter" aria-label="Filter by type">
+                        <option value="">All types</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expenses</option>
+                    </select>
+
+                    <input type="date" id="startDate" aria-label="Start date">
+                    <input type="date" id="endDate" aria-label="End date">
+
+                    <button class="secondary-button" id="clearFilters">Clear</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>TRANSACTION</th>
+                                <th>CATEGORY</th>
+                                <th>DATE</th>
+                                <th>TYPE</th>
+                                <th class="amount-column">AMOUNT</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTableBody">
+                            <tr>
+                                <td colspan="6" class="loading-cell">
+                                    Your transactions will appear here.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <span id="transactionFooter">0 transactions</span>
+                    <span>Amounts displayed in INR (₹)</span>
+                </div>
+            </section>
+
+            <footer class="page-footer">
+                <span>FinTrack. Personal finance, made clearer.</span>
+                <span>Built with Flask · SQLite</span>
+            </footer>
+        </main>
+    </div>
+
+    <dialog id="transactionDialog" class="transaction-dialog">
+        <form id="transactionForm">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">FINANCIAL RECORD</p>
+                    <h2 id="dialogTitle">Add transaction</h2>
+                </div>
+                <button type="button" class="close-button" id="closeDialog"
+                        aria-label="Close dialog">×</button>
+            </div>
+
+            <label for="titleInput">Transaction title</label>
+            <input id="titleInput" name="title" type="text"
+                   maxlength="100" placeholder="e.g. Monthly salary" required>
+
+            <div class="form-row">
+                <div>
+                    <label for="amountInput">Amount (₹)</label>
+                    <input id="amountInput" name="amount" type="number"
+                           min="0.01" step="0.01" placeholder="0.00" required>
+                </div>
+                <div>
+                    <label for="transactionType">Transaction type</label>
+                    <select id="transactionType" name="transaction_type" required>
+                        <option value="expense">Expense</option>
+                        <option value="income">Income</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label for="categoryInput">Category</label>
+                    <select id="categoryInput" name="category" required>
+                        <option value="">Loading categories...</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="dateInput">Date</label>
+                    <input id="dateInput" name="transaction_date"
+                           type="date" required>
+                </div>
+            </div>
+
+            <label for="noteInput">Note <span class="optional">(optional)</span></label>
+            <textarea id="noteInput" name="note" maxlength="500"
+                      rows="3" placeholder="Add a short note..."></textarea>
+
+            <p class="form-error" id="formError" role="alert"></p>
+
+            <div class="dialog-actions">
+                <button type="button" class="secondary-button" id="cancelDialog">
+                    Cancel
+                </button>
+                <button type="submit" class="primary-button" id="saveTransaction">
+                    Save transaction
+                </button>
+            </div>
+        </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
