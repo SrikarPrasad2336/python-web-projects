@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a1020">
+  <title>Capture Studio | Screen Recorder</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-icon">◉</span>
+        <span>Capture<span class="brand-accent">Studio</span></span>
+      </a>
+      <span class="secure-badge"><span class="status-dot"></span> Browser-based recording</span>
+    </header>
+
+    <section class="hero">
+      <span class="eyebrow">SCREEN RECORDING MADE SIMPLE</span>
+      <h1>Capture every<br><span>important moment.</span></h1>
+      <p>Record your screen, explain your ideas, and save your videos in a few clicks.</p>
+    </section>
+
+    <section class="workspace">
+      <div class="panel controls-panel">
+        <div class="section-heading">
+          <span class="step-number">01</span>
+          <div>
+            <h2>Recording setup</h2>
+            <p>Choose what to capture.</p>
+          </div>
+        </div>
+
+        <label class="toggle-row" for="microphone">
+          <span class="toggle-icon">🎙</span>
+          <span class="toggle-copy">
+            <strong>Microphone audio</strong>
+            <small>Include your voice in the recording</small>
+          </span>
+          <input type="checkbox" id="microphone">
+        </label>
+
+        <label class="toggle-row" for="systemAudio">
+          <span class="toggle-icon">🔊</span>
+          <span class="toggle-copy">
+            <strong>Shared-tab audio</strong>
+            <small>Capture audio from a shared browser tab when supported</small>
+          </span>
+          <input type="checkbox" id="systemAudio">
+        </label>
+
+        <div class="recording-info">
+          <span class="info-icon">ⓘ</span>
+          <p>Your browser will ask which screen, window, or tab you want to share. Audio availability depends on your browser and sharing choice.</p>
+        </div>
+
+        <div class="timer-card">
+          <span class="timer-label">RECORDING DURATION</span>
+          <strong id="timer">00:00:00</strong>
+          <div class="recording-status">
+            <span id="recordingDot"></span>
+            <span id="statusText" role="status" aria-live="polite">Ready to record</span>
+          </div>
+        </div>
+
+        <div class="section-heading controls-heading">
+          <span class="step-number">02</span>
+          <div>
+            <h2>Controls</h2>
+            <p>Start and manage your recording.</p>
+          </div>
+        </div>
+
+        <button id="startButton" class="button button-primary">
+          <span>●</span> Start Recording
+        </button>
+
+        <div class="button-row">
+          <button id="pauseButton" class="button button-secondary" disabled>Ⅱ Pause</button>
+          <button id="stopButton" class="button button-danger" disabled>■ Stop</button>
+        </div>
+
+        <p id="errorMessage" role="alert"></p>
+      </div>
+
+      <div class="panel preview-panel">
+        <div class="section-heading">
+          <span class="step-number">03</span>
+          <div>
+            <h2>Video preview</h2>
+            <p>Preview your recording before downloading.</p>
+          </div>
+        </div>
+
+        <div class="video-stage" id="videoStage">
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon">▣</div>
+            <strong>Your video appears here</strong>
+            <span>Start recording to capture your screen.</span>
+          </div>
+          <video id="videoPreview" controls playsinline hidden></video>
+        </div>
+
+        <div class="video-meta">
+          <span id="videoFormat">VIDEO · NOT CREATED</span>
+          <span id="videoSize"></span>
+        </div>
+
+        <a id="downloadButton" class="button button-download" href="#" download hidden>
+          ↓ Download Recording
+        </a>
+
+        <div class="privacy-note">
+          <span>✦</span>
+          <p>Recordings are processed in your browser. This app does not upload them to the Flask server.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Capture Studio</span>
+      <span>Record locally. Keep control.</span>
+    </footer>
+  </main>
+</body>
+</html>
