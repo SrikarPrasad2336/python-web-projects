@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1020">
+    <title>KeyForge | Password Generator</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+    <main class="container">
+        <header class="header">
+            <a class="brand" href="/">Key<span>Forge.</span></a>
+            <span class="security-badge">● Local generation</span>
+        </header>
+
+        <section class="hero">
+            <div class="hero-icon">✳</div>
+            <p class="eyebrow">YOUR DIGITAL SECURITY TOOLKIT</p>
+            <h1>Create stronger<br><span>passwords.</span></h1>
+            <p class="hero-description">
+                Generate secure, random passwords tailored to your needs.
+            </p>
+        </section>
+
+        <section class="generator-card">
+            <div class="card-heading">
+                <div>
+                    <h2>Password generator</h2>
+                    <p>Customize your password below.</p>
+                </div>
+                <span class="lock-icon">⌑</span>
+            </div>
+
+            <label class="field-label" for="password-output">
+                YOUR PASSWORD
+            </label>
+
+            <div class="password-box">
+                <input
+                    id="password-output"
+                    type="password"
+                    placeholder="Click generate to begin"
+                    readonly
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-label="Generated password"
+                >
+                <button id="toggle-visibility" class="icon-button"
+                        type="button" aria-label="Show password"
+                        title="Show or hide password">◉</button>
+                <button id="copy-button" class="icon-button"
+                        type="button" aria-label="Copy password"
+                        title="Copy password">▢</button>
+            </div>
+
+            <div class="strength-row">
+                <span id="strength-label">Not generated</span>
+                <div class="strength-bars" aria-label="Password strength">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="length-heading">
+                <label for="length">Password length</label>
+                <output id="length-value" for="length">16</output>
+            </div>
+
+            <input id="length" type="range" min="8" max="64" value="16">
+
+            <div class="range-labels">
+                <span>8 characters</span>
+                <span>64 characters</span>
+            </div>
+
+            <h3 class="options-title">Character options</h3>
+
+            <div class="options-grid">
+                <label class="option">
+                    <input type="checkbox" id="lowercase" checked>
+                    <span class="custom-check"></span>
+                    <span><strong>Lowercase</strong><small>a-z</small></span>
+                </label>
+
+                <label class="option">
+                    <input type="checkbox" id="uppercase" checked>
+                    <span class="custom-check"></span>
+                    <span><strong>Uppercase</strong><small>A-Z</small></span>
+                </label>
+
+                <label class="option">
+                    <input type="checkbox" id="numbers" checked>
+                    <span class="custom-check"></span>
+                    <span><strong>Numbers</strong><small>0-9</small></span>
+                </label>
+
+                <label class="option">
+                    <input type="checkbox" id="symbols">
+                    <span class="custom-check"></span>
+                    <span><strong>Symbols</strong><small>!@#$...</small></span>
+                </label>
+            </div>
+
+            <p id="message" class="message" role="status" aria-live="polite"></p>
+
+            <button id="generate-button" class="generate-button" type="button">
+                <span>✳</span> Generate password
+            </button>
+
+            <p class="privacy-note">
+                🔒 Passwords are generated on your local server and aren't
+                stored by this application.
+            </p>
+        </section>
+
+        <footer>
+            KeyForge · Built with Python and Flask
+        </footer>
+    </main>
+</body>
+</html>
